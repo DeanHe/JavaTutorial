@@ -14,7 +14,7 @@ class Run implements Runnable {
 	}
 }
 
-public class UsingRunnableDemo {
+public class UsingRunnableDemoII {
 	public static void main(String[] args) {
 		Thread t1 = new Thread(new Run());
 		Thread t2 = new Thread(new Run());
