@@ -10,7 +10,6 @@ public class UsingSynchronizedDemoIII {
 	public static void main(String[] args) {
 		UsingSynchronizedDemoIII app = new UsingSynchronizedDemoIII();
 		app.doWork();
-
 	}
 
 	private void doWork() {
@@ -21,7 +20,6 @@ public class UsingSynchronizedDemoIII {
 				for (int i = 0; i < 100000; i++) {
 					increment();
 				}
-
 			}
 		});
 		Thread t2 = new Thread(new Runnable() {
