@@ -1,10 +1,9 @@
-package startingThread1;
+package multithreading;
 
-class Runner extends Thread {
-
+class Run implements Runnable {
 	@Override
 	public void run() {
-		for(int i = 0; i < 10; i++){
+		for (int i = 0; i < 10; i++) {
 			System.out.println("hello" + i);
 			try {
 				Thread.sleep(100);
@@ -13,14 +12,14 @@ class Runner extends Thread {
 			}
 		}
 	}
-	
 }
-public class StartingTreadDemoI {
+
+public class UsingRunnableDemoII {
 	public static void main(String[] args) {
-		Runner runner1 = new Runner();
-		runner1.start();
+		Thread t1 = new Thread(new Run());
+		Thread t2 = new Thread(new Run());
 		
-		Runner runner2 = new Runner();
-		runner2.start();
+		t1.start();
+		t2.start();
 	}
 }

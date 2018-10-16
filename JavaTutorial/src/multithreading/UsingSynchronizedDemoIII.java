@@ -1,4 +1,4 @@
-package startingThread1;
+package multithreading;
 
 public class UsingSynchronizedDemoIII {
 	private int count = 0;
