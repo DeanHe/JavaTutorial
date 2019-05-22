@@ -23,86 +23,87 @@ class Node {
 
 public class Test {
 	// id : root
-	HashMap<Integer, Integer> parent = new HashMap<>();
-	// root : nodes
-	HashMap<Integer, ArrayList<Node>> groups = new HashMap<>();
-	public static void main(String[] args) throws Exception {
+		HashMap<Integer, Integer> parent = new HashMap<>();
+		// root : nodes
+		HashMap<Integer, ArrayList<Node>> groups = new HashMap<>();
 
-		ArrayList<Node> list = new ArrayList<>();
-		Scanner input = new Scanner(System.in);
-		int total = Integer.valueOf(input.nextLine());
-		for (int i = 0; i < total; i++) {
-			String nodestr = input.nextLine();
-			String[] arr = nodestr.split(",");
-			int id1 = Integer.valueOf(arr[0]);
-			int id2 = Integer.valueOf(arr[1]);
-			Node n = new Node(id1, id2);
-			list.add(n);
-		}
-		Test test = new Test();
-		test.group(list);
-		test.output(list);
-	}
+		public static void main(String[] args) throws Exception {
 
-	public void group(ArrayList<Node> list) {
-		for (Node node : list) {
-			union(node); 
-		}
-		
-	}
-
-	public void output(ArrayList<Node> list) {
-		HashSet<Integer> rootSet = new HashSet<>(parent.values());
-		for(int root : rootSet){
-			ArrayList<Node> ls = new ArrayList<>();
-			for(Node node : list){
-				if(parent.get(node.id1) == root){
-					ls.add(node);
-				}
+			ArrayList<Node> list = new ArrayList<>();
+			Scanner input = new Scanner(System.in);
+			int total = Integer.valueOf(input.nextLine());
+			for (int i = 0; i < total; i++) {
+				String nodestr = input.nextLine();
+				String[] arr = nodestr.split(",");
+				int id1 = Integer.valueOf(arr[0]);
+				int id2 = Integer.valueOf(arr[1]);
+				Node n = new Node(id1, id2);
+				list.add(n);
 			}
-			Collections.sort(ls, new Comparator<Node>() {
+			Test test = new Test();
+			test.group(list);
+			test.output(list);
+		}
 
-				@Override
-				public int compare(Node o1, Node o2) {
-					if(o1.id1 != o2.id1){
-						return o1.id1 - o2.id1;
-					} else {
-						return o1.id2 - o2.id2;
+		public void group(ArrayList<Node> list) {
+			for (Node node : list) {
+				union(node);
+			}
+			for (int root : groups.keySet()) {
+				ArrayList<Node> ls = groups.get(root);
+				Collections.sort(ls, new Comparator<Node>() {
+
+					@Override
+					public int compare(Node o1, Node o2) {
+						if (o1.id1 != o2.id1) {
+							return o1.id1 - o2.id1;
+						} else {
+							return o1.id2 - o2.id2;
+						}
 					}
-				}
-			});
-			groups.put(root, ls);
-		}
-		for(int root : groups.keySet()){
-			ArrayList<Node> ls = groups.get(root);
-			for(Node node : ls){
-				System.out.print(node.id1 + "," + node.id2 + " ");
+				});
 			}
-			System.out.println();
 		}
-	}
 
-	public void union(Node node) {
-		if(parent.containsKey(node.id1)){
-			int root_id1 = parent.get(node.id1); 
-			if(parent.containsKey(node.id2)){
-				int root_id2 = parent.get(node.id2);
-				for(Map.Entry<Integer, Integer> entry : parent.entrySet()){
-					if(entry.getValue() == root_id2){
-						entry.setValue(root_id1);
-					}
+		public void output(ArrayList<Node> list) {
+			for (int root : groups.keySet()) {
+				ArrayList<Node> ls = groups.get(root);
+				for (Node node : ls) {
+					System.out.print(node.id1 + "," + node.id2 + " ");
 				}
-			} else {
-				parent.put(node.id2, root_id1);
-			}
-		} else {
-			if(parent.containsKey(node.id2)){
-				int root_id2 = parent.get(node.id2);
-				parent.put(node.id1, root_id2);
-			} else {
-				parent.put(node.id1, node.id1);
-				parent.put(node.id2, node.id1);
+				System.out.println();
 			}
 		}
-	}
+
+		public void union(Node node) {
+			if (parent.containsKey(node.id1)) {
+				int root_id1 = parent.get(node.id1);
+				if (parent.containsKey(node.id2)) {
+					int root_id2 = parent.get(node.id2);
+					if(root_id1 != root_id2){
+						ArrayList<Node> root_id2_list = groups.get(root_id2);
+						for(Node n2 : root_id2_list){
+							parent.put(n2.id1, root_id1);
+							parent.put(n2.id2, root_id1);
+							groups.get(root_id1).add(n2);
+						}
+						groups.remove(root_id2);
+					}
+				} else {
+					parent.put(node.id2, root_id1);
+				}
+				groups.get(root_id1).add(node);
+			} else {
+				if (parent.containsKey(node.id2)) {
+					int root_id2 = parent.get(node.id2);
+					parent.put(node.id1, root_id2);
+					groups.get(root_id2).add(node);
+				} else {
+					parent.put(node.id1, node.id1);
+					parent.put(node.id2, node.id1);
+					groups.put(node.id1, new ArrayList<>());
+					groups.get(node.id1).add(node);
+				}
+			}
+		}
 }
