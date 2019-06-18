@@ -13,19 +13,19 @@ public class LunchOrder {
 			return LunchOrder(this);
 		}
 
-		pbulic Builder bread(String bread){
+		public Builder bread(String bread){
 			this.bread = bread;
 			return this;
 		}
-		pbulic Builder condiment(String condiment){
+		public Builder condiment(String condiment){
 			this.condiment = condiment;
 			return this;
 		}
-		pbulic Builder dressing(String dressing){
+		public Builder dressing(String dressing){
 			this.dressing = dressing;
 			return this;
 		}
-		pbulic Builder meat(String meat){
+		public Builder meat(String meat){
 			this.meat = meat;
 			return this;
 		}
