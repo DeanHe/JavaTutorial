@@ -1,15 +1,18 @@
-package Pluralsight.Mutlithreading.waitnotify;
+  package Pluralsight.Mutlithreading.waitnotify;
+
+import java.util.Random;
 
 public class ProducerConsumer {
 
 	private static Object lock = new Object();
 	private static int[] buffer;
 	private static int count;
+	private static Random random = new Random();
 
 	static class Producer {
 		void produce() {
 			synchronized (lock) {
-				if (isFull(buffer)) {
+				while (isFull(buffer)) {
 					try {
 						lock.wait();
 					} catch (InterruptedException e) {
@@ -17,7 +20,9 @@ public class ProducerConsumer {
 						e.printStackTrace();
 					}
 				}
-				buffer[count++] = 1;
+				buffer[count] = random.nextInt(100);
+				System.out.println("produce " + buffer[count]);
+				count++;
 				lock.notify();
 			}
 
@@ -27,7 +32,7 @@ public class ProducerConsumer {
 	static class Consumer {
 		void consume() {
 			synchronized (lock) {
-				if (isEmpty(buffer)) {
+				while (isEmpty(buffer)) {
 					try {
 						lock.wait();
 					} catch (InterruptedException e) {
@@ -35,7 +40,9 @@ public class ProducerConsumer {
 						e.printStackTrace();
 					}
 				}
-				buffer[--count] = 0;
+				count--;
+				System.out.println("consume " + buffer[count]);
+				buffer[count] = 0;;
 				lock.notify();
 			}
 
