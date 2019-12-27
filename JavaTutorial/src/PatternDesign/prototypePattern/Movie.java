@@ -1,4 +1,4 @@
-package PatternDesign.prototype;
+package PatternDesign.prototypePattern;
 
 public class Movie extends Item {
 

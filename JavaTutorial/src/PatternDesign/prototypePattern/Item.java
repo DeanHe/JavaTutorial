@@ -1,4 +1,4 @@
-package PatternDesign.prototype;
+package PatternDesign.prototypePattern;
 
 public abstract class Item implements Cloneable {
 	private String title;

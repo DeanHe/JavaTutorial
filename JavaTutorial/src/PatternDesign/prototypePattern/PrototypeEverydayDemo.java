@@ -1,4 +1,4 @@
-package PatternDesign.prototype;
+package PatternDesign.prototypePattern;
 
 import java.util.ArrayList;
 import java.util.List;
