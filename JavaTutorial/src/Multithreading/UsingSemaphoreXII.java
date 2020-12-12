@@ -26,7 +26,7 @@ public class UsingSemaphoreXII {
 class Connection {
 	private static Connection instance = new Connection();	
 	private int connections = 0;
-	private Semaphore semaphore = new Semaphore(10, true);
+	private Semaphore lock = new Semaphore(10, true);
 	
 	private Connection() {
 		
@@ -37,7 +37,7 @@ class Connection {
 	}
 	public void connect(){
 		try {
-			semaphore.acquire();
+			lock.acquire();
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -45,7 +45,7 @@ class Connection {
 		try {
 			doConnect();
 		} finally {
-			semaphore.release();
+			lock.release();
 		}
 	}
 	private void doConnect(){
@@ -64,6 +64,6 @@ class Connection {
 			connections--;
 		}
 		
-		semaphore.release();
+		lock.release();
 	}
 }
